@@ -1,5 +1,7 @@
 extends KinematicBody
 
+class_name Player
+
 onready var camera = $Pivot/Camera
 
 var gravity = -30
