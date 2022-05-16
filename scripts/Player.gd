@@ -4,7 +4,7 @@ onready var camera = $Pivot/Camera
 
 var gravity = -30
 var max_speed = 8
-var mouse_sensitivity = 0.002  # radians/pixel
+var mouse_sensitivity = 0.01  # radians/pixel
 
 var velocity = Vector3()
 
