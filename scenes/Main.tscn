@@ -179,3 +179,4 @@ mouse_filter = 2
 color = Color( 0, 0, 0, 0 )
 
 [connection signal="pressed" from="Panel/VBoxContainer/GoToEntrance" to="." method="_on_GoToEntrance_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GoToLevel1" to="." method="_on_GoToLevel1_pressed"]

@@ -3,6 +3,7 @@ extends Node
 var _current_level: Spatial = null
 
 var _entrance_level: PackedScene = preload("res://scenes/Entrance.tscn")
+var _level_1: PackedScene = preload("res://scenes/Level1.tscn")
 onready var _player: PackedScene = preload("res://scenes/Player.tscn")
 
 func _ready():
@@ -23,6 +24,15 @@ func _on_GoToEntrance_pressed():
 	$AnimationPlayer.play("FadeMapToBlack")
 	yield($AnimationPlayer, "animation_finished")
 	_current_level = _entrance_level.instance()
+	_current_level.player = _player.instance()
+	add_child(_current_level)
+	$AnimationPlayer.play("FadeBlackToLevel")
+
+
+func _on_GoToLevel1_pressed():
+	$AnimationPlayer.play("FadeMapToBlack")
+	yield($AnimationPlayer, "animation_finished")
+	_current_level = _level_1.instance()
 	_current_level.player = _player.instance()
 	add_child(_current_level)
 	$AnimationPlayer.play("FadeBlackToLevel")
