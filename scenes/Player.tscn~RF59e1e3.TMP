@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://scripts/ItemRayCast.gd" type="Script" id=2]
+[ext_resource path="res://resources/BoltCuttersInHand.glb" type="PackedScene" id=3]
+[ext_resource path="res://resources/Crowbar.glb" type="PackedScene" id=4]
+[ext_resource path="res://resources/Dynamite.glb" type="PackedScene" id=5]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.4, 0.1, 0.4 )
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 1 )
+
+[node name="Body" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="Feet" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.755722, 0 )
+shape = SubResource( 2 )
+
+[node name="Pivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.494408, 0 )
+
+[node name="Camera" type="Camera" parent="Pivot"]
+
+[node name="ItemRayCast" type="RayCast" parent="Pivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00182939, 0, 0.00434047 )
+enabled = true
+cast_to = Vector3( 0, 0, -4 )
+collision_mask = 8
+collide_with_areas = true
+script = ExtResource( 2 )
+
+[node name="BoltCuttersInHand" parent="Pivot" instance=ExtResource( 3 )]
+transform = Transform( 0.919393, -0.368318, 0.138055, 0.269163, 0.84505, 0.461999, -0.286826, -0.387599, 0.87607, 0.411828, -0.538125, -0.955338 )
+visible = false
+
+[node name="Crowbar" parent="Pivot" instance=ExtResource( 4 )]
+transform = Transform( 0.724829, 0.0354218, -0.900655, 0.412746, 0.782592, 0.383491, 0.801818, -0.434869, 0.616769, 0.440647, -0.400058, -1.04895 )
+visible = false
+
+[node name="Dynamite" parent="Pivot" instance=ExtResource( 5 )]
+transform = Transform( 0.838471, -0.325117, 0.437339, 0, 0.802536, 0.596603, -0.544946, -0.500234, 0.672903, 0.411422, -0.492021, -0.951719 )

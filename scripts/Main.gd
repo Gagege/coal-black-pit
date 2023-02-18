@@ -8,8 +8,8 @@ onready var _player: PackedScene = preload("res://scenes/Player.tscn")
 
 func _ready():
 	var _err0 = GlobalEvents.connect("player_exited_level", self, "_on_player_exited_level")
-	_current_level = _entrance_level.instance()
-	_current_level.initial_spawn = true
+	_current_level = _level_1.instance()
+#	_current_level.initial_spawn = true
 	_current_level.player = _player.instance()
 	add_child(_current_level)
 
