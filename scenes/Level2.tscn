@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/Level2.gd" type="Script" id=1]
 [ext_resource path="res://resources/Level2.gltf" type="PackedScene" id=2]
+[ext_resource path="res://scripts/Gate.gd" type="Script" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.0526028, 1.45899, 1 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 1.30706, 1, 1 )
 
 [node name="Level2" type="Spatial"]
 script = ExtResource( 1 )
@@ -10,3 +20,26 @@ script = ExtResource( 1 )
 
 [node name="SpawnPoint" type="Spatial" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1.47376 )
+
+[node name="Boards" type="StaticBody" parent="."]
+script = ExtResource( 3 )
+
+[node name="CSGBox" type="CSGBox" parent="Boards"]
+transform = Transform( 0.315467, 0, 0.948937, 0, 1, 0, -0.948937, 0, 0.315467, 2.05845, -0.253109, 7.58149 )
+height = 3.13226
+depth = 0.0846104
+material = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Boards"]
+transform = Transform( 0.94818, 0, -0.317735, 0, 1, 0, 0.317735, 0, 0.94818, 2.05839, -0.192083, 7.57856 )
+shape = SubResource( 2 )
+
+[node name="Area" type="Area" parent="Boards"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.69563 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Boards/Area"]
+transform = Transform( 0.948733, 0, -0.31608, 0, 1, 0, 0.31608, 0, 0.948733, 2.05819, 0, 0.874393 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="Boards/Area" to="Boards" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="Boards/Area" to="Boards" method="_on_Area_body_exited"]
