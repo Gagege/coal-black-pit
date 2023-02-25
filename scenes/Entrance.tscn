@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://resources/Entrance.gltf" type="PackedScene" id=1]
 [ext_resource path="res://scripts/BoltCutters.gd" type="Script" id=2]
@@ -8,9 +8,8 @@
 [ext_resource path="res://scripts/HatchDoors.gd" type="Script" id=6]
 [ext_resource path="res://scripts/Selectable.gd" type="Script" id=7]
 [ext_resource path="res://scripts/Exit.gd" type="Script" id=8]
-[ext_resource path="res://scenes/Crowbar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/BoltCutters.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scenes/Dynamite.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scripts/KillerBall.gd" type="Script" id=12]
 
 [sub_resource type="Animation" id=4]
 resource_name = "Highlight Mesh"
@@ -183,6 +182,11 @@ tracks/6/keys = {
 "values": [ Vector3( 14.6099, -0.109398, -1.0028 ) ]
 }
 
+[sub_resource type="SphereShape" id=8]
+
+[sub_resource type="BoxShape" id=9]
+extents = Vector3( 1.18737, 1.16776, 1.14172 )
+
 [sub_resource type="BoxShape" id=3]
 extents = Vector3( 1, 3.72256, 1 )
 
@@ -233,14 +237,24 @@ anims/RESET = SubResource( 7 )
 
 [node name="Spatial" type="Spatial" parent="World/HatchDoors"]
 
-[node name="Crowbar" parent="World" instance=ExtResource( 9 )]
-transform = Transform( 0.49823, -0.867045, 0, 0.867045, 0.49823, 0, 0, 0, 1, -28.4585, 1.32833, 1.60172 )
-
-[node name="Dynamite" parent="World" instance=ExtResource( 11 )]
-transform = Transform( 0.49823, -0.867045, 0, 0.867045, 0.49823, 0, 0, 0, 1, -28.4585, 0.740356, -0.0281138 )
-
 [node name="BoltCutters" parent="World" instance=ExtResource( 10 )]
-transform = Transform( 0.49823, -0.867045, 0, 0.867045, 0.49823, 0, 0, 0, 1, -30.3444, 0.905991, 1.90385 )
+transform = Transform( 0.49823, -0.867045, 0, 0.867045, 0.49823, 0, 0, 0, 1, 12.3178, 0.905991, 0.0347899 )
+
+[node name="KillerBall" type="RigidBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24.7696, 1.67166, 0 )
+contacts_reported = 1
+contact_monitor = true
+script = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="World/KillerBall"]
+shape = SubResource( 8 )
+
+[node name="CSGSphere" type="CSGSphere" parent="World/KillerBall"]
+
+[node name="HitBox" type="Area" parent="World/KillerBall"]
+
+[node name="CollisionShape" type="CollisionShape" parent="World/KillerBall/HitBox"]
+shape = SubResource( 9 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 4 )
@@ -252,11 +266,10 @@ light_energy = 0.05
 shadow_enabled = true
 
 [node name="Exit" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6181, -14.9899, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.6181, -5.64617, 0 )
 script = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Exit"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5007, 0 )
 shape = SubResource( 3 )
 
 [node name="InitialSpawnPoint" type="Spatial" parent="."]
@@ -265,6 +278,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.0954, 1.30614, 5.84211 )
 [node name="SpawnPoint" type="Spatial" parent="."]
 transform = Transform( -0.332605, 0, 0.943066, 0, 1, 0, -0.943066, 0, -0.332605, 12.6264, 1.30614, 0.121308 )
 
+[connection signal="body_entered" from="World/KillerBall/HitBox" to="World/KillerBall" method="_on_HitBox_body_entered"]
 [connection signal="body_entered" from="Exit" to="Exit" method="_on_Exit_body_entered"]
 
 [editable path="World/HatchDoors/HatchDoor"]
